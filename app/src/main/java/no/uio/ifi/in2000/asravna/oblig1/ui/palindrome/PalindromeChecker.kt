@@ -1,9 +1,10 @@
 package no.uio.ifi.in2000.asravna.oblig1.ui.palindrome
+
+
 import androidx.compose.runtime.Composable
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.height
@@ -21,78 +22,95 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.Alignment
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.text.KeyboardActions
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.sp
+import androidx.compose.ui.text.input.ImeAction
+import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 
 
-class MainActivity : ComponentActivity() {
+
+class PalindromeChecker : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        enableEdgeToEdge()
         setContent {
             TextFieldContent()
-
         }
     }
 
-    private fun isPalindrome(tekst: String): Boolean {
+    fun isPalindrome(tekst: String): Boolean {
         val cleanedText = tekst.replace("\\s".toRegex(), "").lowercase()
         val reversedStr = cleanedText.reversed()
-        return tekst.lowercase() == reversedStr
-
+        return cleanedText == reversedStr
     }
 
 
     @Composable
     fun TextFieldContent() {
-            Box(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .padding(16.dp),
-                contentAlignment = Alignment.Center
+        val keyboardController = LocalSoftwareKeyboardController.current
 
+        Box(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(16.dp),
+            contentAlignment = Alignment.Center
+        ) {
+            Column(
+                modifier = Modifier.padding(16.dp),
+                horizontalAlignment = Alignment.CenterHorizontally
             ) {
-                Column(modifier = Modifier.padding(16.dp),
-                    horizontalAlignment = Alignment.CenterHorizontally
-                    ){
-                    Text(
-                        "Palindrome Checker",
-                        textAlign = TextAlign.Center,
-                        style = TextStyle(
-                            fontSize = 28.sp,
-                            fontWeight = FontWeight.Bold,
-                            fontFamily = FontFamily.SansSerif,
-                            color = Color(0xFF0096FF)
-                        ),
-                        modifier = Modifier.fillMaxWidth()
-                    )
-                    Spacer(modifier = Modifier.height(46.dp))
-                    var word: String by remember { mutableStateOf("") }
-                    var isPalindrome by remember {mutableStateOf(false) }
-                    var checked by remember { mutableStateOf(false) }
+                Text(
+                    "Palindrome Checker",
+                    textAlign = TextAlign.Center,
+                    style = TextStyle(
+                        fontSize = 28.sp,
+                        fontWeight = FontWeight.Bold,
+                        fontFamily = FontFamily.SansSerif,
+                        color = Color(0xFF0096FF)
+                    ),
+                    modifier = Modifier.fillMaxWidth()
+                )
 
-                    OutlinedTextField(
+                Spacer(modifier = Modifier.height(46.dp))
+
+                var word by remember { mutableStateOf("") }
+                var isPalindrome by remember { mutableStateOf(false) }
+                var checked by remember { mutableStateOf(false) }
+
+                OutlinedTextField(
                     value = word,
                     onValueChange = {
                         word = it
                         checked = false
                     },
-                    label = { Text("Word")
-
-                    }
+                    label = { Text("Word") },
+                    keyboardOptions = KeyboardOptions.Default.copy(
+                        imeAction = ImeAction.Done
+                    ),
+                    keyboardActions = KeyboardActions(
+                        onDone = {
+                            isPalindrome = isPalindrome(word)
+                            checked = true
+                            keyboardController?.hide()
+                        }
+                    ),
+                    modifier = Modifier.fillMaxWidth()
                 )
+
                 Spacer(modifier = Modifier.height(16.dp))
+
                 Button(onClick = {
                     isPalindrome = isPalindrome(word)
                     checked = true
                 }) {
                     Text("Check")
-
                 }
-                if(checked) {
+
+                if (checked) {
                     Text(
                         text = "$word is ${if (isPalindrome) "a palindrome" else "not a palindrome"}",
                         color = if (isPalindrome) Color(0xFF0B6623) else Color.Red
@@ -102,16 +120,9 @@ class MainActivity : ComponentActivity() {
         }
     }
 
-
     @Preview
     @Composable
     fun IsPalindromePreview() {
         TextFieldContent()
-
-
     }
-
-
 }
-
-

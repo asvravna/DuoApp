@@ -1,5 +1,8 @@
-package no.uio.ifi.in2000.<ditt-brukernavn>.oblig_1
+package no.uio.ifi.in2000.asravna.oblig_1
 
+
+import no.uio.ifi.in2000.asravna.oblig1.converter
+import no.uio.ifi.in2000.asravna.oblig1.ui.ConverterUnits
 import org.junit.Assert.*
 import org.junit.Test
 
