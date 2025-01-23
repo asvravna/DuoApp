@@ -12,12 +12,6 @@ class PalindromeUnitTest {
      * identisk sett både forfra og bakfra.
      */
 
-    fun isPalindrome(tekst: String): Boolean {
-        val cleanedText = tekst.replace("\\s".toRegex(), "").lowercase()
-        val reversedStr = cleanedText.reversed()
-        return tekst.lowercase() == reversedStr
-
-    }
 
     @Test
     fun isPalindrome_inputIsPureText_expectTrue() {

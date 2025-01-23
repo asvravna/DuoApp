@@ -4,19 +4,16 @@
     <selectionStates>
       <SelectionState runConfigName="app">
         <option name="selectionMode" value="DROPDOWN" />
-        <DropdownSelection timestamp="2025-01-22T16:06:41.322912800Z">
+        <DropdownSelection timestamp="2025-01-23T10:44:19.481654600Z">
           <Target type="DEFAULT_BOOT">
             <handle>
-              <DeviceId pluginId="PhysicalDevice" identifier="serial=R3CRB0F6HBF" />
+              <DeviceId pluginId="LocalEmulator" identifier="path=C:\Users\ansvr\.android\avd\Resizable_Experimental_API_35.avd" />
             </handle>
           </Target>
         </DropdownSelection>
         <DialogSelection />
       </SelectionState>
-      <SelectionState runConfigName="isPalindromePreview">
-        <option name="selectionMode" value="DROPDOWN" />
-      </SelectionState>
-      <SelectionState runConfigName="IsPalindromePreview">
+      <SelectionState runConfigName="AppNavigationPreview">
         <option name="selectionMode" value="DROPDOWN" />
       </SelectionState>
     </selectionStates>

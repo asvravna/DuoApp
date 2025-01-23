@@ -44,6 +44,7 @@ class MainActivity : ComponentActivity() {
         MaterialTheme{
             Surface{
                 AppNavigation()
+                PalindromeScreen(navController = rememberNavController())
 
             }
         }

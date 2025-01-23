@@ -117,7 +117,7 @@ fun PalindromeScreen(navController: NavController) {
                     color = if (isPalindrome) Color(0xFF0B6623) else Color.Red
                 )
             }
-            Spacer(modifier = Modifier.height(32.dp))
+            Spacer(modifier = Modifier.height(62.dp))
 
             Button(
                 onClick = { navController.navigate("unit_converter") },
@@ -127,7 +127,6 @@ fun PalindromeScreen(navController: NavController) {
             }
         }
     }
-
 
 }
 

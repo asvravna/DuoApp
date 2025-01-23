@@ -1,5 +1,6 @@
 package no.uio.ifi.in2000.asravna.oblig1
 
+
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
@@ -13,6 +14,8 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
+import no.uio.ifi.in2000.asravna.oblig1.ui.ConverterUnits
+
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -21,29 +24,28 @@ fun UnitConverterScreen(navController: NavController) {
     var outputText by remember { mutableStateOf("") }
     var selectedInputUnit by remember { mutableStateOf("Ounce") }
     var selectedOutputUnit by remember { mutableStateOf("Cup") }
-    val units = listOf("Ounce", "Cup", "Gallon", "Hogshead")
+    val units = ConverterUnits.entries.map { it.name }
+
     var expandedInput by remember { mutableStateOf(false) }
     var expandedOutput by remember { mutableStateOf(false) }
 
-    fun convertUnits(value: Double, fromUnit: String, toUnit: String): Double {
-        // Convert input value to ounces
-        val ounces = when (fromUnit) {
-            "Ounce" -> value
-            "Cup" -> value * 8
-            "Gallon" -> value * 128
-            "Hogshead" -> value * 8192
+    fun unitConverter(value: Double, fromUnit: String, toUnit: String): Double {
+        val liters = when (fromUnit) {
+            "Ounce" -> value * 0.02957
+            "Cup" -> value * 0.23659
+            "Gallon" -> value * 3.78541
+            "Hogshead" -> value * 238.481
             else -> value
         }
-        // Convert ounces to desired unit
+
         return when (toUnit) {
-            "Ounce" -> ounces
-            "Cup" -> ounces / 8
-            "Gallon" -> ounces / 128
-            "Hogshead" -> ounces / 8192
-            else -> ounces
+            "Ounce" -> liters / 0.02957
+            "Cup" -> liters / 0.23659
+            "Gallon" -> liters / 3.78541
+            "Hogshead" -> liters / 238.481
+            else -> liters
         }
     }
-
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -54,9 +56,9 @@ fun UnitConverterScreen(navController: NavController) {
 
         Spacer(modifier = Modifier.height(16.dp))
 
-        // Input Field
         OutlinedTextField(
             value = inputText,
+            singleLine = true,
             onValueChange = { inputText = it },
             label = { Text("Enter value") },
             keyboardOptions = KeyboardOptions.Default.copy(
@@ -66,7 +68,7 @@ fun UnitConverterScreen(navController: NavController) {
             keyboardActions = KeyboardActions(onDone = {
                 val inputValue = inputText.toDoubleOrNull()
                 if (inputValue != null) {
-                    val result = convertUnits(inputValue, selectedInputUnit, selectedOutputUnit)
+                    val result = unitConverter(inputValue, selectedInputUnit, selectedOutputUnit)
                     outputText = result.toString()
                 } else {
                     outputText = "Invalid input"
@@ -101,6 +103,8 @@ fun UnitConverterScreen(navController: NavController) {
                     }, text = { Text(unit) })
                 }
             }
+
+
         }
 
         Spacer(modifier = Modifier.height(16.dp))
@@ -111,7 +115,7 @@ fun UnitConverterScreen(navController: NavController) {
             onExpandedChange = { expandedOutput = !expandedOutput }
         ) {
             OutlinedTextField(
-                readOnly = true,
+                readOnly = false,
                 value = selectedOutputUnit,
                 onValueChange = {},
                 label = { Text("To") },
@@ -138,7 +142,7 @@ fun UnitConverterScreen(navController: NavController) {
             onClick = {
                 val inputValue = inputText.toDoubleOrNull()
                 if (inputValue != null) {
-                    val result = convertUnits(inputValue, selectedInputUnit, selectedOutputUnit)
+                    val result = unitConverter(inputValue, selectedInputUnit, selectedOutputUnit)
                     outputText = result.toString()
                 } else {
                     outputText = "Invalid input"
@@ -153,8 +157,17 @@ fun UnitConverterScreen(navController: NavController) {
 
         // Output Result
         Text("Converted Value: $outputText", style = MaterialTheme.typography.bodyLarge)
+        Spacer(modifier = Modifier.height(62.dp))
+
+        Button(
+            onClick = { navController.navigate("unit_converter") },
+            modifier = Modifier.align(Alignment.End)
+        ) {
+            Text("Switch to Palindrome Checker")
+        }
     }
 }
+
 
 
 @Preview
