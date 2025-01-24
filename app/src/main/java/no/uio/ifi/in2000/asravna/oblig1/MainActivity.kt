@@ -1,24 +1,25 @@
 package no.uio.ifi.in2000.asravna.oblig1
 
-import no.uio.ifi.in2000.asravna.oblig1.ui.unitconverter.UnitConverter
-import androidx.compose.runtime.Composable
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Surface
+import androidx.compose.runtime.Composable
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.navigation.compose.rememberNavController
-import no.uio.ifi.in2000.asravna.oblig1.ui.palindrome.PalindromeScreen
-import androidx.compose.material3.*
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import androidx.navigation.compose.rememberNavController
+import no.uio.ifi.in2000.asravna.oblig1.ui.palindrome.PalindromeScreen
+import no.uio.ifi.in2000.asravna.oblig1.ui.unitconverter.UnitConverterScreen
 
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
-            MaterialTheme{
-                Surface{
+            MaterialTheme {
+                Surface {
                     AppNavigation()
                 }
             }
@@ -33,15 +34,16 @@ class MainActivity : ComponentActivity() {
                 PalindromeScreen(navController)
             }
             composable("unit_converter") {
-                UnitConverter(navController) // Another screen if needed, placeholder for now
+                UnitConverterScreen(navController)
             }
         }
     }
+
     @Preview
     @Composable
     fun AppNavigationPreview() {
-        MaterialTheme{
-            Surface{
+        MaterialTheme {
+            Surface {
                 AppNavigation()
                 PalindromeScreen(navController = rememberNavController())
 
