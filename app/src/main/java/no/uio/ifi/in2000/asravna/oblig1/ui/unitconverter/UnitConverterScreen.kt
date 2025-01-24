@@ -53,7 +53,6 @@ fun UnitConverterScreen(navController: NavController) {
             .padding(16.dp),
         verticalArrangement = Arrangement.Center
     ) {
-        Spacer(modifier = Modifier.height(96.dp))
 
         Text(
             "Unit Converter",
@@ -66,13 +65,13 @@ fun UnitConverterScreen(navController: NavController) {
             ),
             modifier = Modifier.fillMaxWidth()
         )
-        Spacer(modifier = Modifier.padding(78.dp))
+        Spacer(modifier = Modifier.padding(38.dp))
 
         OutlinedTextField(
             value = valueInput,
             singleLine = true,
             onValueChange = { valueInput = it },
-            label = { Text("Enter value") },
+            label = { Text("Enter value in $selectedUnit") },
             keyboardOptions = KeyboardOptions(
                 keyboardType = KeyboardType.Number,
                 imeAction = ImeAction.Done
@@ -99,7 +98,7 @@ fun UnitConverterScreen(navController: NavController) {
         Spacer(modifier = Modifier.height(36.dp))
 
 
-        ReadOnlyOutlinedTextField(value = conversionResult, label = "Result")
+        ReadOnlyOutlinedTextField(value = conversionResult, label = "Result in liters")
         Spacer(modifier = Modifier.height(36.dp))
 
         Button(
@@ -115,7 +114,7 @@ fun UnitConverterScreen(navController: NavController) {
 @Composable
 fun ReadOnlyOutlinedTextField(label: String, value: String) {
     OutlinedTextField(
-        value = value,
+        value = "$value L",
         onValueChange = {},
         label = { Text(text = label) },
         readOnly = true,

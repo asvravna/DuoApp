@@ -5,7 +5,6 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
@@ -39,8 +38,8 @@ import no.uio.ifi.in2000.asravna.oblig1.isPalindrome
 @Composable
 fun PalindromeScreen(navController: NavController) {
     val keyboardController = LocalSoftwareKeyboardController.current
-    var word by remember { mutableStateOf("") }
     var isPalindrome by remember { mutableStateOf(false) }
+    var word by remember { mutableStateOf("") }
     var checked by remember { mutableStateOf(false) }
     var labelText by remember { mutableStateOf("Enter word") }
 
@@ -54,28 +53,21 @@ fun PalindromeScreen(navController: NavController) {
             modifier = Modifier.padding(16.dp),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
+
             Text(
                 "Palindrome Checker",
                 textAlign = TextAlign.Center,
-                style = TextStyle(
-                    fontSize = 28.sp,
-                    fontWeight = FontWeight.Bold,
-                    fontFamily = FontFamily.SansSerif,
-                    color = Color(0xFF0096FF)
-                ),
+                style = headingTextStyle(),
                 modifier = Modifier.fillMaxWidth()
             )
 
-            Spacer(modifier = Modifier.height(46.dp))
+            Spacer(modifier = Modifier.padding(16.dp))
 
             OutlinedTextField(
                 value = word,
-                onValueChange = {
-                    word = it
-                    checked = false
-                    if (it.isEmpty()) {
-                        labelText = "Enter word"
-                    }
+                onValueChange = { newValue ->
+                    onWordChange(newValue, { word = it },
+                        { checked = it }, { labelText = it })
                 },
                 singleLine = true,
                 modifier = Modifier.fillMaxWidth(),
@@ -85,39 +77,30 @@ fun PalindromeScreen(navController: NavController) {
                 ),
                 keyboardActions = KeyboardActions(
                     onDone = {
-                        if (word.isNotEmpty()) {
-                            labelText = ""
-                            isPalindrome = isPalindrome(word)
-                            checked = true
-                        } else {
-                            labelText = "No words entered"
-
-                        }
-                        keyboardController?.hide()
+                        checkPalindrome(word, { isPalindrome = it },
+                            { checked = it }, { labelText = it })
                     }
                 )
             )
 
-            Spacer(modifier = Modifier.height(16.dp))
+            Spacer(modifier = Modifier.padding(16.dp))
 
             Button(onClick = {
-                if (word.isNotEmpty()) {
-                    isPalindrome = isPalindrome(word)
-                    checked = true
-                } else {
-                    labelText = "No words entered"
-                }
+                checkPalindrome(word, { isPalindrome = it },
+                    { checked = it }, { labelText = it })
             }) {
                 Text("Check")
             }
+            Spacer(modifier = Modifier.padding(22.dp))
 
             if (checked && word.isNotEmpty()) {
                 Text(
                     text = "$word is ${if (isPalindrome) "a palindrome" else "not a palindrome"}",
-                    color = if (isPalindrome) Color(0xFF0B6623) else Color.Red
+                    color = if (isPalindrome) Color(0xFF0B6623) else Color.Red,
+                    style = headingTextStyle()
                 )
             }
-            Spacer(modifier = Modifier.height(62.dp))
+            Spacer(modifier = Modifier.padding(92.dp))
 
             Button(
                 onClick = { navController.navigate("unit_converter") },
@@ -130,16 +113,50 @@ fun PalindromeScreen(navController: NavController) {
 
 }
 
+fun headingTextStyle() = TextStyle(
+    fontSize = 28.sp,
+    fontWeight = FontWeight.Bold,
+    fontFamily = FontFamily.SansSerif,
+    color = Color(0xFF0096FF)
+)
+
+fun onWordChange(
+    newWord: String,
+    updateWord: (String) -> Unit,
+    updateChecked: (Boolean) -> Unit,
+    updateLabelText: (String) -> Unit
+) {
+    updateWord(newWord)
+    updateChecked(false)
+    if (newWord.isBlank()) {
+        updateLabelText("Enter word")
+    }
+}
+
+fun checkPalindrome(
+    word: String,
+    updateIsPalindrome: (Boolean) -> Unit,
+    updateChecked: (Boolean) -> Unit,
+    updateLabelText: (String) -> Unit
+) {
+    if (word.isBlank()) {
+        updateLabelText("No word entered")
+    } else {
+        updateIsPalindrome(isPalindrome(word))
+        updateChecked(true)
+    }
+}
+
+
 @Preview(showBackground = true)
 @Composable
-fun PalindromePreview(){
-    MaterialTheme{
-        Surface{
+fun PalindromePreview() {
+    MaterialTheme {
+        Surface {
             PalindromeScreen(navController = rememberNavController())
 
         }
     }
-
 
 }
 
