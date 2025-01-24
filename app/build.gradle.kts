@@ -1,3 +1,5 @@
+import com.android.build.api.dsl.Packaging
+
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.jetbrains.kotlin.android)
@@ -18,6 +20,13 @@ android {
         vectorDrawables {
             useSupportLibrary = true
         }
+        // Use this for excluding non-JNI files
+        packaging {
+            resources {
+                excludes += "META-INF/versions/9/OSGI-INF/MANIFEST.MF"
+            }
+        }
+
     }
 
     buildTypes {
@@ -59,6 +68,7 @@ dependencies {
     implementation(libs.androidx.ui.graphics)
     implementation(libs.androidx.ui.tooling.preview)
     implementation(libs.androidx.material3)
+    implementation(libs.identity.doctypes.jvm)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
@@ -67,5 +77,6 @@ dependencies {
     debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.androidx.ui.test.manifest)
     implementation(libs.androidx.navigation.compose)
+    implementation("androidx.compose.material3:material3:1.4.0-alpha06")
 
 }
