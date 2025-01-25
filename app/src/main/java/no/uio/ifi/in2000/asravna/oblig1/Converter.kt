@@ -4,7 +4,6 @@ import no.uio.ifi.in2000.asravna.oblig1.ui.ConverterUnits
 import kotlin.math.roundToInt
 
 
-
 fun converter(verdi: Int, enhet: ConverterUnits): Int {
     val liters = when (enhet) {
         ConverterUnits.OUNCE -> verdi * 0.02957
@@ -14,4 +13,3 @@ fun converter(verdi: Int, enhet: ConverterUnits): Int {
     }
     return liters.roundToInt()
 }
-

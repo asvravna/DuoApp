@@ -37,7 +37,7 @@ import no.uio.ifi.in2000.asravna.oblig1.isPalindrome
 
 @Composable
 fun PalindromeScreen(navController: NavController) {
-    val keyboardController = LocalSoftwareKeyboardController.current
+    LocalSoftwareKeyboardController.current
     var isPalindrome by remember { mutableStateOf(false) }
     var word by remember { mutableStateOf("") }
     var checked by remember { mutableStateOf(false) }
@@ -54,6 +54,8 @@ fun PalindromeScreen(navController: NavController) {
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
 
+            Spacer(modifier = Modifier.padding(108.dp))
+
             Text(
                 "Palindrome Checker",
                 textAlign = TextAlign.Center,
@@ -61,7 +63,7 @@ fun PalindromeScreen(navController: NavController) {
                 modifier = Modifier.fillMaxWidth()
             )
 
-            Spacer(modifier = Modifier.padding(16.dp))
+            Spacer(modifier = Modifier.padding(26.dp))
 
             OutlinedTextField(
                 value = word,
@@ -100,7 +102,7 @@ fun PalindromeScreen(navController: NavController) {
                     style = headingTextStyle()
                 )
             }
-            Spacer(modifier = Modifier.padding(92.dp))
+            Spacer(modifier = Modifier.padding(52.dp))
 
             Button(
                 onClick = { navController.navigate("unit_converter") },
@@ -157,6 +159,5 @@ fun PalindromePreview() {
 
         }
     }
-
 }
 
